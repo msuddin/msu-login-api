@@ -1,27 +1,27 @@
-package com.thetestroom;
+package com.thetestroom.model;
 
 public class LoginSession {
 
-    private String userName;
+    private String username;
     private String password;
 
     public LoginSession() {}
 
-    public LoginSession(String userName, String password) {
-        this.userName = userName;
+    public LoginSession(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getUserName() {
-        return this.userName;
+    public String getUsername() {
+        return this.username;
     }
 
     public String getPassword() {

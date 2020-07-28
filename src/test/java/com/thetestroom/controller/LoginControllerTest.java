@@ -1,5 +1,6 @@
-package com.thetestroom;
+package com.thetestroom.controller;
 
+import com.thetestroom.model.LoginSession;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -59,21 +60,48 @@ public class LoginControllerTest {
             .body(is("hello admin/password"));
     }
 
+    // [REF 2.0]
+    // Example of testing GET http method that perform credential validation
+    @Test
+    public void shouldNotBeAbleToLoginUsingInvalidCredentialsUsingParams() {
+        given()
+            .pathParam("username", "someone")
+            .pathParam("password", "something")
+            .request("get","login/{username}/{password}")
+        .then()
+            .body(is("Not authenticated"));
+    }
+
     // [REF 3.0]
-    // In a GET http method, we pass in all the variables that are needed for the constructor of the object
+    // In a GET http method, we pass in valid credentials that are needed for the constructor of the object
     // The object is then returned as a JSON
     @Test
     public void shouldBeAbleToGenerateLoginSessionBasedOnParameterRequest() {
         given()
             .contentType(ContentType.JSON)
-            .queryParam("userName", "admin")
+            .queryParam("username", "admin")
             .queryParam("password", "password")
         .when()
             .request("get", "loginName")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .body("userName", is("admin"))
+            .body("username", is("admin"))
             .body("password", is("password"));
+    }
+
+    // [REF 3.0]
+    // In a GET http method, we pass in invalid credentials that are needed for the constructor of the object
+    // The object is then returned as a JSON
+    @Test
+    public void shouldNotBeAbleToGenerateLoginSessionBasedOnParameterRequest() {
+        given()
+            .contentType(ContentType.JSON)
+            .queryParam("username", "someone")
+            .queryParam("password", "something")
+        .when()
+            .request("get", "loginName")
+        .then()
+            .statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 
     // [REF 4.0]
@@ -88,7 +116,7 @@ public class LoginControllerTest {
             .post("login")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .body("userName", is("admin"))
+            .body("username", is("admin"))
             .body("password", is("password"));
     }
 

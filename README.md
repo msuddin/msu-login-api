@@ -9,22 +9,54 @@ This project assumes that the docker container found at https://github.com/msudd
 
 ## Instructions
 How does this run?
-
+This is a Java project therefore need to run a Jar locally. Firstly, to build this project we will need to set the following permissions:
+```
 chmod +x gradlew
+```
+
+Once that is done, we can run the project using the following gradle command:
+```
 ./gradlew clean build
+```
+
+Now use the command below to run the jar locally:
 java -jar build/libs/<name>.jar
 
 ## Endpoints
+Each endpoint can be triggered via curl once the Jar is running locally. Here are all the endpoints with example output:
+
+### /hello
+```
 curl http://localhost:8080/hello
 Hello, I am awake
+```
 
+### /login
+```
 curl http://localhost:8080/login/admin/password
 hello admin/password
 
 curl http://localhost:8080/login/someone/something
 Not authenticated
+```
 
-## TODO: add in the others here, loginName and login with curls
+### /login/{username}/{password}
+```
+curl http://localhost:8080/login/admin/password
+hello admin/password%
+```
+
+### /loginName
+```
+curl --request GET --header "Content-Type: application/json" http://localhost:8080/loginName\?username\=admin\&password\=password
+{"username":"admin","password":"password"}
+```
+
+### /login
+```
+curl --header "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"password\"}" http://localhost:8080/login
+{"username":"admin","password":"password"}
+```
 
 ## DB Connectivity
 This project used SpringBoot JpaRepository to connect to a local PostgreSQL database. In order to that, need to setup a repository, service and model.

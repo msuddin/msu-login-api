@@ -2,6 +2,8 @@ package com.thetestroom.controller;
 
 import com.thetestroom.model.LoginSession;
 import com.thetestroom.services.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
+
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private AccountService accountService;
@@ -42,6 +46,7 @@ public class LoginController {
     @RequestMapping(value = "login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
     public LoginSession userSession(@RequestBody LoginSession session) {
         if (ValidateCredentials(session.getUsername(), session.getPassword())) {
+            logger.info(String.format("New login session for %s", session.getUsername()));
             return session;
         }
         return null;

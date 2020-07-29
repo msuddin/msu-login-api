@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +35,7 @@ public class LoginControllerTest {
             .get("hello")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .body(is("Hello, I am awake"));
+            .body("message", is("Hello, I am awake"));
     }
 
     // [REF 2.0]
@@ -45,7 +46,7 @@ public class LoginControllerTest {
             .get("login/admin/password")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .body(is("hello admin/password"));
+            .body("message", is("hello admin/password"));
     }
 
     // [REF 2.0]
@@ -57,7 +58,7 @@ public class LoginControllerTest {
             .pathParam("password", "password")
             .request("get","login/{username}/{password}")
         .then()
-            .body(is("hello admin/password"));
+            .body("message", is("hello admin/password"));
     }
 
     // [REF 2.0]
@@ -69,7 +70,7 @@ public class LoginControllerTest {
             .pathParam("password", "something")
             .request("get","login/{username}/{password}")
         .then()
-            .body(is("Not authenticated"));
+            .body("message", is("Not authenticated"));
     }
 
     // [REF 3.0]

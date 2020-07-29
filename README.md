@@ -25,13 +25,13 @@ java -jar build/libs/<name>.jar
 ## Endpoints
 Each endpoint can be triggered via curl once the Jar is running locally. Here are all the endpoints with example output:
 
-### /hello
+### /hello (REF 1.0)
 ```
 curl http://localhost:8080/hello
 Hello, I am awake
 ```
 
-### /login
+### /login/{username}/{password} (REF 2.0)
 ```
 curl http://localhost:8080/login/admin/password
 hello admin/password
@@ -40,19 +40,13 @@ curl http://localhost:8080/login/someone/something
 Not authenticated
 ```
 
-### /login/{username}/{password}
-```
-curl http://localhost:8080/login/admin/password
-hello admin/password%
-```
-
-### /loginName
+### /loginName (REF 3.0)
 ```
 curl --request GET --header "Content-Type: application/json" http://localhost:8080/loginName\?username\=admin\&password\=password
 {"username":"admin","password":"password"}
 ```
 
-### /login
+### /login (REF 4.0)
 ```
 curl --header "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"password\"}" http://localhost:8080/login
 {"username":"admin","password":"password"}
